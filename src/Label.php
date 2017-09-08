@@ -226,7 +226,7 @@ class Label
         $pdf->SetFont($pdf->getFontFamily(), 'B', 30);
         $pdf->Text(78 + $xPositionOffset, 6 + $yPositionOffset, $package->getPackageProductType());
 
-        $pdf->write1DBarcode($package->getPackageNumber(), 'C128', 96 + $xPositionOffset, 4 + $yPositionOffset, 42, 25);
+        $pdf->write1DBarcode($package->getPackageNumber(), 'C128', 96 + $xPositionOffset, 4 + $yPositionOffset, 42, 25, '', []);
 
         $pdf->SetFont($pdf->getFontFamily(), '', 10);
         $pdf->Text(103 + $xPositionOffset, 29 + $yPositionOffset, $package->getPackageNumber());
