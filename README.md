@@ -26,23 +26,6 @@ $ composer require salamek/czech-post-api:dev-master
 
 ## Usage
 
-### Is API healthy
-
-Check if PPL MyApi is in working shape
-
-```php
-$pplMyApi = new Salamek\PplMyApi\Api();
-if ($pplMyApi->isHealthy())
-{
-    echo 'Healthly :)' . PHP_EOL;
-}
-else
-{
-    echo 'Ill :(' . PHP_EOL;
-}
-```
-
-
 ### Create Packages
 
 Creates package/s on PPL MyApi (sends Package object to PPL)
