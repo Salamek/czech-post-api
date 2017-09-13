@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Salamek/czech-post-api.svg?branch=master)](https://travis-ci.org/Salamek/czech-post-api)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=D8LQ4XTBLV3C4&lc=CZ&item_number=Salamekczech-post-api&currency_code=EUR)
 
-Czech post API client in PHP (Parsing podani online)
+Czech post API client in PHP (Parsing podani online) with custom Label generator
 
 
 ## Requirements
