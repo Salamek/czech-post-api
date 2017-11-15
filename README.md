@@ -28,7 +28,7 @@ $ composer require salamek/czech-post-api:dev-master
 
 ### Create Packages
 
-Creates package/s on PPL MyApi (sends Package object to PPL)
+Creates package/s on Ceska posta
 
 ```php
 
