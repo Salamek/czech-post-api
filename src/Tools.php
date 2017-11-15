@@ -15,7 +15,9 @@ class Tools
     /** @var array  */
     public static $senderTypePackageIdFormat = [
         SenderType::C => '%s%04d%05d%s%s',
-        SenderType::B => '%s%04d%05d%s%s'
+        SenderType::B => '%s%04d%05d%s%s',
+        SenderType::M => '%s%05d%04d%s%s',
+        SenderType::L => '%s%05d%04d%s%s'
     ];
 
     /**
