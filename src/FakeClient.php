@@ -236,9 +236,6 @@ class FakeClient
 
         $importName = sprintf('import-%s-%s.csv', 'CzechPostApi', (new \DateTime)->format('Y-m-d H:i:s'));
 
-        //!FIXME REMOVE ME Log
-        @mail('adam.schubert@sg1-game.net', $importName, file_get_contents($tmpfname));
-
         $postData = [];
         $postData['bean.importTablePageSize'] = 10;
         $postData['bean.sortImportOrder'] = 1;
