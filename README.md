@@ -38,7 +38,7 @@ $cookieJar = __DIR__.'/cookieJar.txt';
 
 $czechPostApi = new Salamek\CzechPostApi\Api($username, $password, $cookieJar);
 
-$sender = new Salamek\CzechPostApi\Model\Sender('Olomouc', 'My Compamy s.r.o.', 'My Address', '77900', 'info@example.com', '+420123456789', 'http://www.example.cz', Country::CZ);
+$sender = new Salamek\CzechPostApi\Model\Sender('C9569', 'Olomouc', 'My Compamy s.r.o.', 'My Address', '77900', 'info@example.com', '+420123456789', 'http://www.example.cz', Country::CZ);
 $recipient = new Salamek\CzechPostApi\Model\Recipient('Olomouc', 'Adam Schubert', 'My Address', '77900', 'adam@example.com', '+420123456789', 'http://www.salamek.cz', Country::CZ, 'My Compamy a.s.');
 
 $myPackageIdFromNumberSeries = 115;
