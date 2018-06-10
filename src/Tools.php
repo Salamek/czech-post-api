@@ -53,22 +53,41 @@ class Tools
             default:
             case SenderType::C:
             case SenderType::B:
+                $senderIdNumberCount = 4;
+                $orderIdNumberCount = 5;
+                $modulo = [1, 8, 6, 4, 2, 3, 5, 9, 7];
+                break;
+
             case SenderType::M:
             case SenderType::L:
+                $senderIdNumberCount = 5;
+                $orderIdNumberCount = 4;
+                $modulo = [1, 8, 6, 4, 2, 3, 5, 9, 7];
+                break;
+
             case SenderType::F:
             case SenderType::E:
             case SenderType::P:
+                $senderIdNumberCount = 2;
+                $orderIdNumberCount = 7;
+                $modulo = [1, 8, 6, 4, 2, 3, 5, 9, 7];
+                break;
+
             case SenderType::U:
             case SenderType::T:
+                $senderIdNumberCount = 3;
+                $orderIdNumberCount = 6;
                 $modulo = [1, 8, 6, 4, 2, 3, 5, 9, 7];
                 break;
 
             case SenderType::CZ:
+                $senderIdNumberCount = 0;
+                $orderIdNumberCount = 8;
                 $modulo = [8, 6, 4, 2, 3, 5, 9, 7];
                 break;
         }
 
-        $numberArray = str_split(str_pad($package->getSender()->getId(), 4, '0', STR_PAD_LEFT) . str_pad($package->getSeriesNumberId(), 5, '0', STR_PAD_LEFT));
+        $numberArray = str_split(str_pad($package->getSender()->getId(), $senderIdNumberCount, '0', STR_PAD_LEFT) . str_pad($package->getSeriesNumberId(), $orderIdNumberCount, '0', STR_PAD_LEFT));
         if (count($modulo) != count($numberArray)) {
             throw new \Exception(sprintf('Wrong number array or modulo: %s != %s', count($modulo), count($numberArray)));
         }
