@@ -25,7 +25,7 @@ class WeightedPackageInfo
 
     /**
      * WeightedPackageInfo constructor.
-     * @param float $weight
+     * @param float $weight (In KG)
      * @param int|null $height
      * @param int|null $width
      * @param int|null $length

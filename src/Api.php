@@ -17,13 +17,15 @@ class Api extends FakeClient
 {
     /**
      * @param array $packages
+     * @param int|null $customFillingId
      * @throws \Exception
      */
     public function createPackages(
-        array $packages
+        array $packages,
+        $customFillingId = NULL
     ) {
         $filingDate = new \DateTime;
-        $filingId = (date('H') + 1);
+        $filingId = $customFillingId == NULL ? (date('H') + 1) : $customFillingId;
 
         //Close all batches containing packages, delete empty batches
         foreach ($this->getOpenBatches() AS $openBatch) {
