@@ -22,7 +22,8 @@ class Api extends FakeClient
      */
     public function createPackages(
         array $packages,
-        $customFillingId = NULL
+        $customFillingId = NULL,
+        $cardIdentifier = 'null;/1;/0;/null'
     ) {
         $filingDate = new \DateTime;
         $filingId = $customFillingId == NULL ? (date('H') + 1) : $customFillingId;

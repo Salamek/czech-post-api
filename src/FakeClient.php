@@ -170,7 +170,7 @@ class FakeClient
      * @param string $numberVs
      * @throws \Exception
      */
-    public function createFiling($techId, \DateTimeInterface $filingDate, $number, $orderNumber = '', $numberVs = '')
+    public function createFiling($techId, \DateTimeInterface $filingDate, $number, $orderNumber = '', $numberVs = '', $cardIdentifier = 'null;/1;/0;/null')
     {
         $this->neededConnection();
         $postData = [];
@@ -179,7 +179,7 @@ class FakeClient
         $postData['cisloPodani'] = $number;
         $postData['cisloZakazky'] = $orderNumber;
         $postData['cisloVS'] = $numberVs;
-        $postData['zakaznickaKartaSelectValue'] = 'null;/1;/0;/null';
+        $postData['zakaznickaKartaSelectValue'] = $cardIdentifier;
         $postData['action:rucVstupZasilkaUlozPodani'] = 'Uložit';
         $httpResponse = $this->form($this->newFillingActionUrl, 'rucVstupZasilka', $postData);
 
