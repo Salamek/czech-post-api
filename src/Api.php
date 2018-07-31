@@ -73,7 +73,7 @@ class Api extends FakeClient
                             $package->getRecipient()->getFirstName(), //8
                             $package->getRecipient()->getLastName(), //9
                             null, //10
-                            $package->getDescription(), //11
+                            null, //11
                             ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE ? 'Na postu' : $package->getRecipient()->getStreet()), //12
                             $package->getRecipient()->getStreetNumber(), //13
                             null, //14 $streetNumberSecond
@@ -86,7 +86,7 @@ class Api extends FakeClient
                             ($package->getWeightedPackageInfo() ? $package->getWeightedPackageInfo()->getWeight() / 1000 : null), //21
                             implode('+', $services), //22
                             ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //23
-                            ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //24
+                            $package->getInternalPackageNumber(), //24
                             null, // 25
                             null, //26
                             null, //27
@@ -100,7 +100,7 @@ class Api extends FakeClient
                             null, //35
                             null, //36
                             $package->getDescription(), //37
-                            null, //38
+                            $package->getDescription(), //38
                             null, //39
                             null, //40
                             null, //41
@@ -133,7 +133,7 @@ class Api extends FakeClient
 
 
             //Create new empty filling
-            $this->createFiling($package->getSender()->getType() . $package->getSender()->getId(), $filingDate, $filingId);
+            $this->createFiling($package->getSender()->getType() . $package->getSender()->getId(), $filingDate, $filingId, '', '', $cardIdentifier);
 
             $this->importBatchData($rows);
         }
