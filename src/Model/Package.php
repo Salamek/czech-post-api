@@ -56,6 +56,9 @@ class Package
     /** @var null|string */
     private $parentPackageNumber = null;
 
+    /** @var null|string */
+    private $internalPackageNumber;
+
     /**
      * Package constructor.
      * @param int $seriesNumberId
@@ -83,7 +86,8 @@ class Package
         $description = null,
         $packageCount = 1,
         $packagePosition = 1,
-        $parentPackageNumber = null
+        $parentPackageNumber = null,
+        $internalPackageNumber = null
     ) {
         $this->validator = new Validator();
 
@@ -150,6 +154,14 @@ class Package
     public function setSender(Sender $sender)
     {
         $this->sender = $sender;
+    }
+
+    /**
+     * @param string $internalPackageNumber
+     */
+    public function setInternalPackageNumber($internalPackageNumber)
+    {
+        $this->internalPackageNumber = $internalPackageNumber;
     }
 
     /**
@@ -274,6 +286,14 @@ class Package
     public function getPackageNumber()
     {
         return $this->packageNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalPackageNumber()
+    {
+        return $this->internalPackageNumber;
     }
 
     /**
