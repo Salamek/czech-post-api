@@ -105,6 +105,8 @@ class Package
 
         $this->setDescription($description);
 
+        $this->setInternalPackageNumber($internalPackageNumber);
+
         if (!is_null($seriesNumberId)) {
             $this->setSeriesNumberId($seriesNumberId);
         }
