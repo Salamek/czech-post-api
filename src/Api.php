@@ -75,8 +75,8 @@ class Api extends FakeClient
                             null, //10
                             $package->getRecipient()->getCompany(), //11
                             ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE ? 'Na postu' : $package->getRecipient()->getStreet()), //12
-                            $package->getRecipient()->getStreetNumber(), //13
-                            null, //14 $streetNumberSecond
+                            $package->getRecipient()->getSeparatedStreetNumber1(), //13
+                            $package->getRecipient()->getSeparatedStreetNumber2(), //14 $streetNumberSecond
                             $package->getRecipient()->getCity(), //15
                             $package->getRecipient()->getCityPart(), //16
                             $package->getRecipient()->getZipCode(), //17

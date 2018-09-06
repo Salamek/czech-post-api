@@ -333,6 +333,25 @@ class Recipient
         return $this->streetNumber;
     }
 
+    public function getSeparatedStreetNumber1() {
+        if ($this->streetNumber == null) return null;
+
+        $split = split('/', $this->streetNumber);
+
+        if (count($split) < 1) return null;
+
+        return $split[0];
+    }
+    public function getSeparatedStreetNumber2() {
+        if ($this->streetNumber == null) return null;
+
+        $split = split('/', $this->streetNumber);
+
+        if (count($split) < 2) return null;
+
+        return $split[1];
+    }
+
     /**
      * @return null|string
      */
