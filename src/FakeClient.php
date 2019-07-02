@@ -83,7 +83,7 @@ class FakeClient
      * @return HttpResponse
      * @throws \Exception
      */
-    private function form($pageUrl, $id, $postData = [])
+    private function form($pageUrl, $id, $postData = [], $ignoreHiddenOverrides = [])
     {
         $httpResponse = $this->httpRequest->get($pageUrl);
         //Find needed data from signIn page as form action and hidden fields
@@ -95,6 +95,8 @@ class FakeClient
         }
 
         foreach ($hiddens AS $hidden) {
+            if (in_array($hidden->getAttribute('name'), $ignoreHiddenOverrides)) continue;
+
             $postData[$hidden->getAttribute('name')] = $hidden->getAttribute('value');
         }
 
@@ -181,7 +183,8 @@ class FakeClient
         $postData['cisloVS'] = $numberVs;
         $postData['zakaznickaKartaSelectValue'] = $cardIdentifier;
         $postData['action:rucVstupZasilkaUlozPodani'] = 'Uložit';
-        $httpResponse = $this->form($this->newFillingActionUrl, 'rucVstupZasilka', $postData);
+        $ignoredHiddenOverrides = ['datumPodani']; //// Ignored default value set by the website
+        $httpResponse = $this->form($this->newFillingActionUrl, 'rucVstupZasilka', $postData, $ignoredHiddenOverrides);
 
         if (strpos($httpResponse->getRawBody(), 'errorMessages') !== false) {
             throw new \Exception('Failed to create filling');

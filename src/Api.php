@@ -23,9 +23,10 @@ class Api extends FakeClient
     public function createPackages(
         array $packages,
         $customFillingId = NULL,
-        $cardIdentifier = 'null;/1;/0;/null'
+        $cardIdentifier = 'null;/1;/0;/null',
+        $customFillingDate = NULL
     ) {
-        $filingDate = new \DateTime;
+        $filingDate = $customFillingDate == NULL ? new \DateTime : $customFillingDate;
         $filingId = $customFillingId == NULL ? (date('H') + 1) : $customFillingId;
 
         //Close all batches containing packages, delete empty batches
