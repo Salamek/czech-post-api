@@ -87,7 +87,7 @@ class Api extends FakeClient
                             ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //23
                             ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //24
                             null, // 25
-                            null, //26
+                            ($package->getPackageCount() > 1 ? $package->getPackageCount() : null), //26
                             null, //27
                             null, //28
                             ($package->getWeightedPackageInfo() ? $package->getWeightedPackageInfo()->getHeight() : null), //29
