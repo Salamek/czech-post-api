@@ -206,8 +206,7 @@ class FakeClient
         }
 
         $id = 'ZasilkyImport';
-        //$tmpfname = __DIR__."/import.csv";
-        $tmpfname = tempnam('/tmp', __CLASS__);
+        $tmpfname = __DIR__."/import.csv";
 
         $fp = fopen($tmpfname, 'w');
         foreach ($importBatch as $fields) {
