@@ -308,18 +308,19 @@ class FakeClient
 
             /** @var \DOMElement $tr */
             foreach ($trs AS $tr) {
+
                 $filingData = [
-                    'id' => $tr->childNodes->item(2)->nodeValue,
-                    'techId' => $tr->childNodes->item(4)->nodeValue,
-                    'postId' => $tr->childNodes->item(6)->nodeValue,
-                    'filingDate' => new \DateTime(implode('-', array_reverse(explode('.', $tr->childNodes->item(8)->nodeValue)))),
-                    'numberOfShipments' => $tr->childNodes->item(16)->nodeValue,
+                    'id' => $tr->childNodes->item(3)->textContent,
+                    'techId' => $tr->childNodes->item(5)->textContent,
+                    'postId' => $tr->childNodes->item(7)->textContent,
+                    'filingDate' => new \DateTime(implode('-', array_reverse(explode('.', $tr->childNodes->item(9)->textContent)))),
+                    'numberOfShipments' => $tr->childNodes->item(17)->textContent,
                     'closeUrl' => null,
                     'deleteUrl' => null,
                     'blocked' => false
                 ];
 
-                $deleteNode = $tr->childNodes->item(18)->childNodes->item(3);
+                $deleteNode = $tr->childNodes->item(19)->childNodes->item(3);
                 if ($deleteNode)
                 {
                     switch ($deleteNode->getAttribute('id')) {
