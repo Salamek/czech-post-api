@@ -319,7 +319,7 @@ class FakeClient
                     'blocked' => false
                 ];
 
-                $deleteNode = $tr->childNodes->item(19)->childNodes->item(3);
+                $deleteNode = $tr->childNodes->item(18)->childNodes->item(3);
                 if ($deleteNode)
                 {
                     switch ($deleteNode->getAttribute('id')) {
