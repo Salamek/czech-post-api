@@ -75,7 +75,7 @@ class Api extends FakeClient
                             $package->getRecipient()->getLastName(), //9
                             null, //10
                             $package->getRecipient()->getCompany(), //11
-                            ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE ? 'Na postu' : $package->getRecipient()->getStreet()), //12
+                            $this->getShortcodeBasedOnProductType($package), //12
                             $package->getRecipient()->getSeparatedStreetNumber1(), //13
                             $package->getRecipient()->getSeparatedStreetNumber2(), //14 $streetNumberSecond
                             $package->getRecipient()->getCity(), //15
@@ -138,6 +138,17 @@ class Api extends FakeClient
 
             $this->importBatchData($rows);
         }
+    }
+
+    private function getShortcodeBasedOnProductType($package) {
+        if ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE) {
+            return 'Na postu';
+        }
+        if ($package->getPackageProductType() == Product::PACKAGE_TO_BALIKOVNA) {
+            return 'Balíkovna';
+        }
+
+        return $package->getRecipient()->getStreet();
     }
 
     /**

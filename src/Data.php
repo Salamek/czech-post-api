@@ -47,7 +47,7 @@ class Data implements IData
      */
     public function findZipCode($zipCode, $deliveryType = null)
     {
-        if ($deliveryType == Product::PACKAGE_TO_HAND || $deliveryType == Product::PACKAGE_TO_THE_POST_OFFICE)
+        if ($deliveryType == Product::PACKAGE_TO_HAND || $deliveryType == Product::PACKAGE_TO_THE_POST_OFFICE || $deliveryType == Product::PACKAGE_TO_BALIKOVNA)
         {
             $query = $this->database->prepare('SELECT zipCode FROM '.$this->deliveryTypeTable[$deliveryType].' WHERE zipCode = ?');
             $query->execute([$zipCode]);
