@@ -235,7 +235,7 @@ class Recipient
      */
     public function setZipCode($zipCode)
     {
-        if (!$this->validator->validateZipCode($zipCode)) {
+        if (!$this->validator->validateZipCode($zipCode) && !$this->skipStreetValidation) {
             throw new WrongDataException('Zip code have wrong format');
         }
 
