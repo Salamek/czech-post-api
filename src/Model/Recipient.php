@@ -147,7 +147,7 @@ class Recipient
      */
     public function setStreet($street)
     {
-        if (!trim($street) && !$this->skipStreetValidation) {
+        if (!$this->skipStreetValidation && !trim($street)) {
             throw new WrongDataException('Street have wrong format');
         }
 
@@ -160,7 +160,7 @@ class Recipient
      */
     public function setStreetNumber($streetNumber)
     {
-        if (!trim($streetNumber) && !$this->skipStreetValidation) {
+        if (!$this->skipStreetValidation && !trim($streetNumber)) {
             throw new WrongDataException('Street number have wrong format');
         }
         $this->streetNumber = $streetNumber;
@@ -235,7 +235,7 @@ class Recipient
      */
     public function setZipCode($zipCode)
     {
-        if (!$this->validator->validateZipCode($zipCode) && !$this->skipStreetValidation) {
+        if (!$this->skipStreetValidation && !$this->validator->validateZipCode($zipCode)) {
             throw new WrongDataException('Zip code have wrong format');
         }
 
@@ -336,6 +336,10 @@ class Recipient
     public function getStreetNumber()
     {
         return $this->streetNumber;
+    }
+
+    public function getSkipStreetValidation() {
+        return $this->skipStreetValidation;
     }
 
     public function getSeparatedStreetNumber1() {

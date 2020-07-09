@@ -172,7 +172,7 @@ class Package
      */
     public function setRecipient(Recipient $recipient)
     {
-        if ($this->getPackageProductType() && !$this->validator->validateZipCodeDelivery($recipient->getZipCode(), $this->getPackageProductType())) {
+        if (!$recipient->getSkipStreetValidation() && $this->getPackageProductType() && !$this->validator->validateZipCodeDelivery($recipient->getZipCode(), $this->getPackageProductType())) {
             throw new WrongDataException('This delivery type is not supported for this zip code');
         }
         $this->recipient = $recipient;
