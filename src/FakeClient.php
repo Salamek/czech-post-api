@@ -319,7 +319,16 @@ class FakeClient
                     'blocked' => false
                 ];
 
-                $deleteNode = $tr->childNodes->item(18)->childNodes->item(3);
+                $deleteNode18 = $tr->childNodes->item(18); // This part works on some servers
+                if ($deleteNode18 != null && $deleteNode18->childNodes != null) {
+                    $deleteNode = $deleteNode18->childNodes->item(3);
+                } else {
+                    $deleteNode17 = $tr->childNodes->item(17); // This part works on other
+                    if ($deleteNode17 != null && $deleteNode17->childNodes != null) {
+                        $deleteNode = $deleteNode17->childNodes->item(3);
+                    }
+                } // I am so sorry, but I don't know how to fix this in better way
+
                 if ($deleteNode)
                 {
                     switch ($deleteNode->getAttribute('id')) {
