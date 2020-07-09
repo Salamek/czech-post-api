@@ -60,6 +60,8 @@ class Recipient
     /** @var string */
     private $zipCode;
 
+    private $skipStreetValidation;
+
     /**
      * Recipient constructor.
      * @param string $firstName
@@ -76,10 +78,13 @@ class Recipient
      * @param null|string $email
      * @param null|string $phone
      * @param null|string $www
+     * @param null|bool $skipStreetValidation
      */
-    public function __construct($firstName, $lastName, $street, $streetNumber, $city, $cityPart, $zipCode, $company, $companyId, $companyVatId, $country, $email, $phone, $www)
+    public function __construct($firstName, $lastName, $street, $streetNumber, $city, $cityPart, $zipCode, $company, $companyId, $companyVatId, $country, $email, $phone, $www, $skipStreetValidation = false)
     {
         $this->validator = new Validator();
+
+        $this->skipStreetValidation = $skipStreetValidation;
 
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
@@ -142,7 +147,7 @@ class Recipient
      */
     public function setStreet($street)
     {
-        if (!trim($street)) {
+        if (!trim($street) && !$this->skipStreetValidation) {
             throw new WrongDataException('Street have wrong format');
         }
 
@@ -155,7 +160,7 @@ class Recipient
      */
     public function setStreetNumber($streetNumber)
     {
-        if (!trim($streetNumber)) {
+        if (!trim($streetNumber) && !$this->skipStreetValidation) {
             throw new WrongDataException('Street number have wrong format');
         }
         $this->streetNumber = $streetNumber;
