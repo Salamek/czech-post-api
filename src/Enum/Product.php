@@ -8,12 +8,16 @@ namespace Salamek\CzechPostApi\Enum;
 
 class Product
 {
+    const PACKAGE_AS_LETTER = 'RR';
     const PACKAGE_TO_HAND = 'DR';
     const PACKAGE_TO_THE_POST_OFFICE = 'NP';
+    const PACKAGE_TO_BALIKOVNA = 'NB';
 
     /** @var array */
     public static $list = [
         self::PACKAGE_TO_HAND,
-        self::PACKAGE_TO_THE_POST_OFFICE
+        self::PACKAGE_TO_THE_POST_OFFICE,
+        self::PACKAGE_AS_LETTER,
+        self::PACKAGE_TO_BALIKOVNA
     ];
 }

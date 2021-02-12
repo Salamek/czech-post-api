@@ -22,9 +22,11 @@ class Api extends FakeClient
      */
     public function createPackages(
         array $packages,
-        $customFillingId = NULL
+        $customFillingId = NULL,
+        $cardIdentifier = 'null;/1;/0;/null',
+        $customFillingDate = NULL
     ) {
-        $filingDate = new \DateTime;
+        $filingDate = $customFillingDate == NULL ? new \DateTime : $customFillingDate;
         $filingId = $customFillingId == NULL ? (date('H') + 1) : $customFillingId;
 
         //Close all batches containing packages, delete empty batches
@@ -72,10 +74,10 @@ class Api extends FakeClient
                             $package->getRecipient()->getFirstName(), //8
                             $package->getRecipient()->getLastName(), //9
                             null, //10
-                            $package->getDescription(), //11
-                            ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE ? 'Na postu' : $package->getRecipient()->getStreet()), //12
-                            $package->getRecipient()->getStreetNumber(), //13
-                            null, //14 $streetNumberSecond
+                            $package->getRecipient()->getCompany(), //11
+                            $this->getShortcodeBasedOnProductType($package), //12
+                            $package->getRecipient()->getSeparatedStreetNumber1(), //13
+                            $package->getRecipient()->getSeparatedStreetNumber2(), //14 $streetNumberSecond
                             $package->getRecipient()->getCity(), //15
                             $package->getRecipient()->getCityPart(), //16
                             $package->getRecipient()->getZipCode(), //17
@@ -85,7 +87,7 @@ class Api extends FakeClient
                             ($package->getWeightedPackageInfo() ? $package->getWeightedPackageInfo()->getWeight() / 1000 : null), //21
                             implode('+', $services), //22
                             ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //23
-                            ($package->getPaymentInfo() ? $package->getPaymentInfo()->getCashOnDeliveryVariableSymbol() : null), //24
+                            $package->getInternalPackageNumber(), //24
                             null, // 25
                             ($package->getPackageCount() > 1 ? $package->getPackageCount() : null), //26
                             null, //27
@@ -99,7 +101,7 @@ class Api extends FakeClient
                             null, //35
                             null, //36
                             $package->getDescription(), //37
-                            null, //38
+                            $package->getDescription(), //38
                             null, //39
                             null, //40
                             null, //41
@@ -132,10 +134,21 @@ class Api extends FakeClient
 
 
             //Create new empty filling
-            $this->createFiling($package->getSender()->getType() . $package->getSender()->getId(), $filingDate, $filingId);
+            $this->createFiling($package->getSender()->getType() . $package->getSender()->getId(), $filingDate, $filingId, '', '', $cardIdentifier);
 
             $this->importBatchData($rows);
         }
+    }
+
+    private function getShortcodeBasedOnProductType($package) {
+        if ($package->getPackageProductType() == Product::PACKAGE_TO_THE_POST_OFFICE) {
+            return 'Na postu';
+        }
+        if ($package->getPackageProductType() == Product::PACKAGE_TO_BALIKOVNA) {
+            return 'Balíkovna';
+        }
+
+        return $package->getRecipient()->getStreet();
     }
 
     /**

@@ -83,7 +83,7 @@ class FakeClient
      * @return HttpResponse
      * @throws \Exception
      */
-    private function form($pageUrl, $id, $postData = [])
+    private function form($pageUrl, $id, $postData = [], $ignoreHiddenOverrides = [])
     {
         $httpResponse = $this->httpRequest->get($pageUrl);
         //Find needed data from signIn page as form action and hidden fields
@@ -95,6 +95,8 @@ class FakeClient
         }
 
         foreach ($hiddens AS $hidden) {
+            if (in_array($hidden->getAttribute('name'), $ignoreHiddenOverrides)) continue;
+
             $postData[$hidden->getAttribute('name')] = $hidden->getAttribute('value');
         }
 
@@ -170,7 +172,7 @@ class FakeClient
      * @param string $numberVs
      * @throws \Exception
      */
-    public function createFiling($techId, \DateTimeInterface $filingDate, $number, $orderNumber = '', $numberVs = '')
+    public function createFiling($techId, \DateTimeInterface $filingDate, $number, $orderNumber = '', $numberVs = '', $cardIdentifier = 'null;/1;/0;/null')
     {
         $this->neededConnection();
         $postData = [];
@@ -179,9 +181,10 @@ class FakeClient
         $postData['cisloPodani'] = $number;
         $postData['cisloZakazky'] = $orderNumber;
         $postData['cisloVS'] = $numberVs;
-        $postData['zakaznickaKartaSelectValue'] = 'null;/1;/0;/null';
+        $postData['zakaznickaKartaSelectValue'] = $cardIdentifier;
         $postData['action:rucVstupZasilkaUlozPodani'] = 'Uložit';
-        $httpResponse = $this->form($this->newFillingActionUrl, 'rucVstupZasilka', $postData);
+        $ignoredHiddenOverrides = ['datumPodani']; //// Ignored default value set by the website
+        $httpResponse = $this->form($this->newFillingActionUrl, 'rucVstupZasilka', $postData, $ignoredHiddenOverrides);
 
         if (strpos($httpResponse->getRawBody(), 'errorMessages') !== false) {
             throw new \Exception('Failed to create filling');
@@ -203,8 +206,7 @@ class FakeClient
         }
 
         $id = 'ZasilkyImport';
-        //$tmpfname = __DIR__."/import.csv";
-        $tmpfname = tempnam('/tmp', __CLASS__);
+        $tmpfname = __DIR__."/import.csv";
 
         $fp = fopen($tmpfname, 'w');
         foreach ($importBatch as $fields) {
@@ -305,18 +307,28 @@ class FakeClient
 
             /** @var \DOMElement $tr */
             foreach ($trs AS $tr) {
+
                 $filingData = [
-                    'id' => $tr->childNodes->item(2)->nodeValue,
-                    'techId' => $tr->childNodes->item(4)->nodeValue,
-                    'postId' => $tr->childNodes->item(6)->nodeValue,
-                    'filingDate' => new \DateTime(implode('-', array_reverse(explode('.', $tr->childNodes->item(8)->nodeValue)))),
-                    'numberOfShipments' => $tr->childNodes->item(16)->nodeValue,
+                    'id' => $tr->childNodes->item(3)->textContent,
+                    'techId' => $tr->childNodes->item(5)->textContent,
+                    'postId' => $tr->childNodes->item(7)->textContent,
+                    'filingDate' => new \DateTime(implode('-', array_reverse(explode('.', $tr->childNodes->item(9)->textContent)))),
+                    'numberOfShipments' => $tr->childNodes->item(17)->textContent,
                     'closeUrl' => null,
                     'deleteUrl' => null,
                     'blocked' => false
                 ];
 
-                $deleteNode = $tr->childNodes->item(18)->childNodes->item(3);
+                $deleteNode18 = $tr->childNodes->item(18); // This part works on some servers
+                if ($deleteNode18 != null && $deleteNode18->childNodes != null) {
+                    $deleteNode = $deleteNode18->childNodes->item(3);
+                } else {
+                    $deleteNode17 = $tr->childNodes->item(17); // This part works on other
+                    if ($deleteNode17 != null && $deleteNode17->childNodes != null) {
+                        $deleteNode = $deleteNode17->childNodes->item(3);
+                    }
+                } // I am so sorry, but I don't know how to fix this in better way
+
                 if ($deleteNode)
                 {
                     switch ($deleteNode->getAttribute('id')) {

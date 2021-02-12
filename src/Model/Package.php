@@ -56,6 +56,9 @@ class Package
     /** @var null|string */
     private $parentPackageNumber = null;
 
+    /** @var null|string */
+    private $internalPackageNumber;
+
     /**
      * Package constructor.
      * @param int $seriesNumberId
@@ -83,7 +86,8 @@ class Package
         $description = null,
         $packageCount = 1,
         $packagePosition = 1,
-        $parentPackageNumber = null
+        $parentPackageNumber = null,
+        $internalPackageNumber = null
     ) {
         $this->validator = new Validator();
 
@@ -100,6 +104,8 @@ class Package
         $this->setParentPackageNumber($parentPackageNumber);
 
         $this->setDescription($description);
+
+        $this->setInternalPackageNumber($internalPackageNumber);
 
         if (!is_null($seriesNumberId)) {
             $this->setSeriesNumberId($seriesNumberId);
@@ -153,12 +159,20 @@ class Package
     }
 
     /**
+     * @param string $internalPackageNumber
+     */
+    public function setInternalPackageNumber($internalPackageNumber)
+    {
+        $this->internalPackageNumber = $internalPackageNumber;
+    }
+
+    /**
      * @param Recipient $recipient
      * @throws WrongDataException
      */
     public function setRecipient(Recipient $recipient)
     {
-        if ($this->getPackageProductType() && !$this->validator->validateZipCodeDelivery($recipient->getZipCode(), $this->getPackageProductType())) {
+        if (!$recipient->getSkipStreetValidation() && $this->getPackageProductType() && !$this->validator->validateZipCodeDelivery($recipient->getZipCode(), $this->getPackageProductType())) {
             throw new WrongDataException('This delivery type is not supported for this zip code');
         }
         $this->recipient = $recipient;
@@ -274,6 +288,14 @@ class Package
     public function getPackageNumber()
     {
         return $this->packageNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalPackageNumber()
+    {
+        return $this->internalPackageNumber;
     }
 
     /**

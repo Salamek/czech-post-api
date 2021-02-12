@@ -60,6 +60,8 @@ class Recipient
     /** @var string */
     private $zipCode;
 
+    private $skipStreetValidation;
+
     /**
      * Recipient constructor.
      * @param string $firstName
@@ -76,10 +78,13 @@ class Recipient
      * @param null|string $email
      * @param null|string $phone
      * @param null|string $www
+     * @param null|bool $skipStreetValidation
      */
-    public function __construct($firstName, $lastName, $street, $streetNumber, $city, $cityPart, $zipCode, $company, $companyId, $companyVatId, $country, $email, $phone, $www)
+    public function __construct($firstName, $lastName, $street, $streetNumber, $city, $cityPart, $zipCode, $company, $companyId, $companyVatId, $country, $email, $phone, $www, $skipStreetValidation = false)
     {
         $this->validator = new Validator();
+
+        $this->skipStreetValidation = $skipStreetValidation;
 
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
@@ -142,7 +147,7 @@ class Recipient
      */
     public function setStreet($street)
     {
-        if (!trim($street)) {
+        if (!$this->skipStreetValidation && !trim($street)) {
             throw new WrongDataException('Street have wrong format');
         }
 
@@ -155,7 +160,7 @@ class Recipient
      */
     public function setStreetNumber($streetNumber)
     {
-        if (!trim($streetNumber)) {
+        if (!$this->skipStreetValidation && !trim($streetNumber)) {
             throw new WrongDataException('Street number have wrong format');
         }
         $this->streetNumber = $streetNumber;
@@ -230,7 +235,7 @@ class Recipient
      */
     public function setZipCode($zipCode)
     {
-        if (!$this->validator->validateZipCode($zipCode)) {
+        if (!$this->skipStreetValidation && !$this->validator->validateZipCode($zipCode)) {
             throw new WrongDataException('Zip code have wrong format');
         }
 
@@ -331,6 +336,29 @@ class Recipient
     public function getStreetNumber()
     {
         return $this->streetNumber;
+    }
+
+    public function getSkipStreetValidation() {
+        return $this->skipStreetValidation;
+    }
+
+    public function getSeparatedStreetNumber1() {
+        if ($this->streetNumber == null) return null;
+
+        $split = explode('/', $this->streetNumber);
+
+        if (count($split) < 1) return null;
+
+        return $split[0];
+    }
+    public function getSeparatedStreetNumber2() {
+        if ($this->streetNumber == null) return null;
+
+        $split = explode('/', $this->streetNumber);
+
+        if (count($split) < 2) return null;
+
+        return $split[1];
     }
 
     /**
